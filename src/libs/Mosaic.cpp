@@ -56,7 +56,7 @@ void Mosaic::update(){
                 }
                 break;
             case fadeout:
-                if (_mosaicAlpha < 0) {
+                if (_mosaicAlpha < 25) {
                     _stage = end;
                 } else {
                     _mosaicAlpha -= 5;

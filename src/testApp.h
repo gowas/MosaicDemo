@@ -32,6 +32,8 @@ public:
     void gotMessage(ofMessage msg);
     
 protected:
+    bool _dispGuiCanvas;
+    
     ofxUICanvas *   _pGuiCanvas;
     void guiEventHandler(ofxUIEventArgs &e);
     

@@ -16,6 +16,8 @@ void testApp::setup(){
     ofBackground(190);
     ofSetFrameRate(60);
     
+    _dispGuiCanvas = true;
+    
     _pGuiCanvas = new ofxUICanvas(0, 0, 380, 180);
     _pGuiCanvas->setColorBack(ofColor(0, 80));
     
@@ -37,7 +39,17 @@ void testApp::setup(){
 
 //--------------------------------------------------------------
 void testApp::update(){
-    _pMosaic->update(); 
+    _pMosaic->update();
+    
+    if (_pMosaic->isPlaying()) {
+        if (_pGuiCanvas->isVisible()) {
+            _pGuiCanvas->setVisible(false);
+        }
+    } else {
+        if (_dispGuiCanvas && !_pGuiCanvas->isVisible()) {
+            _pGuiCanvas->setVisible(true);
+        }
+    }
 }
 
 //--------------------------------------------------------------
@@ -70,7 +82,10 @@ void testApp::keyReleased(int key){
     switch (key) {
         case 'h':
         case 'H':
-            _pGuiCanvas->toggleVisible();
+            if (!_pMosaic->isPlaying()) {
+                _dispGuiCanvas != _dispGuiCanvas;
+                _pGuiCanvas->toggleVisible();
+            }
             break;
         default:
             break;

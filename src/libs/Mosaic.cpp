@@ -100,8 +100,8 @@ void Mosaic::draw(){
             case fadeout:
                 for (int i = 0; i < screenWidth; i += _mosaicSize) {
                     for (int j = 0; j < screenHeight; j += _mosaicSize) {
-                        _mosaicColor = _pScreenForMosaic->getColor(i, j);
-                        ofSetColor(_mosaicColor.r, _mosaicColor.g, _mosaicColor.b, _mosaicAlpha);
+                        ofColor color = _pScreenForMosaic->getColor(i, j);
+                        ofSetColor(color.r, color.g, color.b, _mosaicAlpha);
                         
                         ofRect(i, j, (_mosaicSize - 1), (_mosaicSize - 1));
                     }

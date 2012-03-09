@@ -41,8 +41,6 @@ protected:
     
     ofImage * _pScreenForMosaic;
     
-    ofColor _mosaicColor;
-    
     mosaicStage _stage;
     
     int _mosaicSize;

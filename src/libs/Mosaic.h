@@ -3,7 +3,7 @@
 //  MosaicDemo
 //
 //  Created by IKEDA Takehisa on 12/03/09.
-//  Copyright (c) 2012 GOWAS_LLC. All rights reserved.
+//  Copyright (c) 2012 GOWAS LLC. All rights reserved.
 //
 
 #ifndef MosaicDemo_Mosaic_h

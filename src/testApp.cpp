@@ -3,7 +3,7 @@
 //  MosaicDemo
 //
 //  Created by IKEDA Takehisa on 12/03/09.
-//  Copyright (c) 2012 GOWAS_LLC. All rights reserved.
+//  Copyright (c) 2012 GOWAS LLC. All rights reserved.
 //
 
 #include "testApp.h"
@@ -69,7 +69,17 @@ void testApp::draw(){
 
 //--------------------------------------------------------------
 void testApp::exit() {
+    if (_pGuiCanvas != NULL) {
+        delete _pGuiCanvas;
+    }
     
+    if (_pLogo != NULL) {
+        delete _pLogo;
+    }
+    
+    if (_pMosaic != NULL) {
+        delete _pMosaic;
+    }
 }
 
 //--------------------------------------------------------------

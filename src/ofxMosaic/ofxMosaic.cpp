@@ -74,8 +74,8 @@ void ofxMosaic::update(){
                 break;
         }
         
-        /* std::cout << "ofxMosaicSize  :" << _mosaicSize << std::endl; */
-        /* std::cout << "ofxMosaicAlpha :" << _mosaicAlpha << std::endl; */
+        /* std::cout << "mosaicSize  :" << _mosaicSize << std::endl; */
+        /* std::cout << "mosaicAlpha :" << _mosaicAlpha << std::endl; */
     }
 }
 

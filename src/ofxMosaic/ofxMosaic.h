@@ -1,17 +1,17 @@
 //
-//  Mosaic.h
-//  MosaicDemo
+//  ofxMosaic.h
 //
-//  Created by IKEDA Takehisa on 12/03/09.
+//  Created by IKEDA Takehisa on 12/03/10.
 //  Copyright (c) 2012 GOWAS LLC. All rights reserved.
 //
 
-#ifndef MosaicDemo_Mosaic_h
-#define MosaicDemo_Mosaic_h
+#ifndef OFX_MOSAIC_H
+#define OFX_MOSAIC_H
 
 #include "ofMain.h"
+#include "ofxMosaicEventArgs.h"
 
-enum mosaicStage {
+enum MosaicStage {
     none = 0,
     first = 1,
     separated = 2,
@@ -19,34 +19,39 @@ enum mosaicStage {
     end = 4
 };
 
-class Mosaic {
+class ofxMosaic {
     
 public:
-    Mosaic(int cycleTimeMillis = 5000);
-    ~Mosaic();
-    
+    ofxMosaic(int cycleTimeMillis = 5000);
+    ~ofxMosaic();
+
     void init(int cycleTimeMillis);
-    
+
     void update();
     void draw();
-    
+
     void start();
     bool isPlaying();
-    
+
+    ofEvent<ofxMosaicEventArgs> mosaicStartEvent;
+    ofEvent<ofxMosaicEventArgs> mosaicEndEvent;
+
 protected:
     int _cycleTimeMillis;
     int _startTimeMillis;
-    
+
     int _counter;
-    
+
     ofImage * _pScreenForMosaic;
-    
-    mosaicStage _stage;
-    
+
+    MosaicStage _stage;
+
     int _mosaicSize;
     int _mosaicAlpha;
-    
+
     void reset();
+
+    ofxMosaicEventArgs * _pMosaicEvent;
 };
 
 #endif

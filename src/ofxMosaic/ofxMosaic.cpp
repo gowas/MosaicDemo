@@ -1,40 +1,44 @@
 //
-//  Mosaic.cpp
-//  MosaicDemo
+//  ofxMosaic.cpp
 //
-//  Created by IKEDA Takehisa on 12/03/09.
+//  Created by IKEDA Takehisa on 12/03/10.
 //  Copyright (c) 2012 GOWAS LLC. All rights reserved.
 //
 
-#include "Mosaic.h"
+#include "ofxMosaic.h"
 
 //--------------------------------------------------------------
-Mosaic::Mosaic(int cycleTimeMillis) {
-    _pScreenForMosaic = NULL;
+ofxMosaic::ofxMosaic(int cycleTimeMillis) {
+    _pScreenForMosaic = new ofImage();
+    
+    _pMosaicEvent = new ofxMosaicEventArgs(); 
     
     init(cycleTimeMillis);
 }
 
 //--------------------------------------------------------------
-Mosaic::~Mosaic() {
+ofxMosaic::~ofxMosaic() {
     if (_pScreenForMosaic != NULL) {
         delete _pScreenForMosaic;
+    }
+    
+    if (_pMosaicEvent != NULL) {
+        delete _pMosaicEvent;
     }
 }
 
 //--------------------------------------------------------------
-void Mosaic::init(int cycleTimeMillis){
+void ofxMosaic::init(int cycleTimeMillis){
     _cycleTimeMillis = cycleTimeMillis;
-    
-    _pScreenForMosaic = new ofImage();
     
     reset();
 }
 
 //--------------------------------------------------------------
-void Mosaic::update(){
+void ofxMosaic::update(){
     if (_stage == none) {
         if ((ofGetElapsedTimeMillis() - _startTimeMillis) > _cycleTimeMillis) {
+            ofNotifyEvent(mosaicStartEvent, (*_pMosaicEvent), this);
             start();
         }
     } else {
@@ -64,18 +68,19 @@ void Mosaic::update(){
                 break;
             case end:
                 reset();
+                ofNotifyEvent(mosaicEndEvent, (*_pMosaicEvent), this);
                 break;
             default:
                 break;
         }
         
-        /* std::cout << "mosaicSize  :" << _mosaicSize << std::endl; */
-        /* std::cout << "mosaicAlpha :" << _mosaicAlpha << std::endl; */
+        /* std::cout << "ofxMosaicSize  :" << _mosaicSize << std::endl; */
+        /* std::cout << "ofxMosaicAlpha :" << _mosaicAlpha << std::endl; */
     }
 }
 
 //--------------------------------------------------------------
-void Mosaic::draw(){
+void ofxMosaic::draw(){
     if (_stage != none) {
         int screenWidth = _pScreenForMosaic->width;
         int screenHeight = _pScreenForMosaic->height;
@@ -116,7 +121,7 @@ void Mosaic::draw(){
 }
 
 //--------------------------------------------------------------
-void Mosaic::start() {
+void ofxMosaic::start() {
     _counter = 0;
     
     _stage = first;
@@ -128,12 +133,12 @@ void Mosaic::start() {
 }
 
 //--------------------------------------------------------------
-bool Mosaic::isPlaying() {
+bool ofxMosaic::isPlaying() {
     return (_stage != none);
 }
 
 //--------------------------------------------------------------
-void Mosaic::reset() {
+void ofxMosaic::reset() {
     _startTimeMillis = ofGetElapsedTimeMillis();
     
     _counter = 0;

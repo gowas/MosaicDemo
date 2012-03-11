@@ -34,22 +34,15 @@ void testApp::setup(){
     _pLogo = new ofImage();
     _pLogo->loadImage("gowas_logo_w.png");
     
-    _pMosaic = new Mosaic(3000);
+    _pMosaic = new ofxMosaic(3000);
+    
+    ofAddListener(_pMosaic->mosaicStartEvent, this, &testApp::mosaicStartEventHandler);
+    ofAddListener(_pMosaic->mosaicEndEvent, this, &testApp::mosaicEndEventHandler);
 }
 
 //--------------------------------------------------------------
 void testApp::update(){
     _pMosaic->update();
-    
-    if (_pMosaic->isPlaying()) {
-        if (_pGuiCanvas->isVisible()) {
-            _pGuiCanvas->setVisible(false);
-        }
-    } else {
-        if (_dispGuiCanvas && !_pGuiCanvas->isVisible()) {
-            _pGuiCanvas->setVisible(true);
-        }
-    }
 }
 
 //--------------------------------------------------------------
@@ -93,7 +86,7 @@ void testApp::keyReleased(int key){
         case 'h':
         case 'H':
             if (!_pMosaic->isPlaying()) {
-                _dispGuiCanvas != _dispGuiCanvas;
+                _dispGuiCanvas = !_dispGuiCanvas;
                 _pGuiCanvas->toggleVisible();
             }
             break;
@@ -146,4 +139,25 @@ void testApp::guiEventHandler(ofxUIEventArgs &e) {
     } else if(e.widget->getName() == "RESET") {
         _pMosaic->start();
     }
+}
+
+//--------------------------------------------------------------
+void testApp::mosaicStartEventHandler(ofxMosaicEventArgs &e) {
+    if (_pGuiCanvas->isVisible()) {
+        _pGuiCanvas->setVisible(false);
+    }
+}
+
+//--------------------------------------------------------------
+void testApp::mosaicEndEventHandler(ofxMosaicEventArgs &e) {
+    if (_dispGuiCanvas && !_pGuiCanvas->isVisible()) {
+        _pGuiCanvas->setVisible(true);
+    }
+    
+    ofSeedRandom();
+    
+    int cycle = int(ofRandom(1.0f, 5.99f)) * 1000;
+    _pMosaic->init(cycle);
+    
+    /* std::cout << "cycle : " << cycle << std::endl; */
 }

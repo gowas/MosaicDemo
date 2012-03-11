@@ -11,7 +11,7 @@
 #include "ofMain.h"
 #include "ofxUI.h"
 
-#include "Mosaic.h"
+#include "ofxMosaic.h"
 
 class testApp : public ofBaseApp{
     
@@ -34,10 +34,12 @@ public:
 protected:
     bool _dispGuiCanvas;
     
-    ofxUICanvas *   _pGuiCanvas;
+    ofxUICanvas * _pGuiCanvas;
     void guiEventHandler(ofxUIEventArgs &e);
     
     ofImage * _pLogo;
     
-    Mosaic * _pMosaic;
+    ofxMosaic * _pMosaic;
+    void mosaicStartEventHandler(ofxMosaicEventArgs &e);
+    void mosaicEndEventHandler(ofxMosaicEventArgs &e);
 };

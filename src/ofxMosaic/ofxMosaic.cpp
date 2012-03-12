@@ -10,6 +10,7 @@
 //--------------------------------------------------------------
 ofxMosaic::ofxMosaic(int cycleTimeMillis) {
     _pScreenForMosaic = new ofImage();
+    _pScreenForMosaic->setImageType(OF_IMAGE_COLOR);
     
     _pMosaicEvent = new ofxMosaicEventArgs(); 
     
@@ -94,21 +95,22 @@ void ofxMosaic::draw(){
                 _pScreenForMosaic->draw(0, 0, screenWidth, screenHeight);
                 break;
             case separated:
-                for (int i = 0; i < screenWidth; i += _mosaicSize) {
-                    for (int j = 0; j < screenHeight; j += _mosaicSize) {
-                        ofColor color = _pScreenForMosaic->getColor(i, j);
-                        ofSetColor(color);
-                        ofRect(i, j, (_mosaicSize - 1), (_mosaicSize - 1));
-                    }
-                }
-                break;
             case fadeout:
-                for (int i = 0; i < screenWidth; i += _mosaicSize) {
-                    for (int j = 0; j < screenHeight; j += _mosaicSize) {
-                        ofColor color = _pScreenForMosaic->getColor(i, j);
-                        ofSetColor(color.r, color.g, color.b, _mosaicAlpha);
-                        
-                        ofRect(i, j, (_mosaicSize - 1), (_mosaicSize - 1));
+                {
+                    unsigned char * pPixels = _pScreenForMosaic->getPixels();
+                
+                    for (int i = 0; i < screenHeight; i += _mosaicSize) {
+                        for (int j = 0; j < screenWidth; j += _mosaicSize) {
+                            int xPoint = j + (int)(_mosaicSize / 2.0f);
+                            if (xPoint >= screenWidth) {
+                                xPoint = screenWidth - 1;
+                            }
+                            
+                            unsigned char * pPoint = pPixels + (i * screenWidth + xPoint) * 3;
+                            
+                            ofSetColor(*(pPoint + 0), *(pPoint + 1), *(pPoint + 2), _mosaicAlpha);
+                            ofRect(j, i, (_mosaicSize - 1), (_mosaicSize - 1));
+                        }
                     }
                 }
                 break;

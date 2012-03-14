@@ -14,10 +14,15 @@ class ofxMosaicEventArgs : public ofEventArgs
 {   
 public:
 	ofxMosaicEventArgs() {
+        cycleTimeMillis = 0;
+        mosaicMaxSize = 0;
     }
 
     ~ofxMosaicEventArgs() {
     }
+    
+    int cycleTimeMillis;
+    int mosaicMaxSize;
 }; 
 
 #endif

@@ -143,6 +143,9 @@ void testApp::guiEventHandler(ofxUIEventArgs &e) {
 
 //--------------------------------------------------------------
 void testApp::mosaicStartEventHandler(ofxMosaicEventArgs &e) {
+    /* std::cout << "cycleTimeMillis : " << e.cycleTimeMillis << std::endl; */
+    /* std::cout << "mosaicMaxSize : " << e.mosaicMaxSize << std::endl; */
+    
     if (_pGuiCanvas->isVisible()) {
         _pGuiCanvas->setVisible(false);
     }
@@ -150,14 +153,14 @@ void testApp::mosaicStartEventHandler(ofxMosaicEventArgs &e) {
 
 //--------------------------------------------------------------
 void testApp::mosaicEndEventHandler(ofxMosaicEventArgs &e) {
+    /* std::cout << "cycleTimeMillis : " << e.cycleTimeMillis << std::endl; */
+    /* std::cout << "mosaicMaxSize : " << e.mosaicMaxSize << std::endl; */
+    
     if (_dispGuiCanvas && !_pGuiCanvas->isVisible()) {
         _pGuiCanvas->setVisible(true);
     }
     
     ofSeedRandom();
     
-    int cycle = int(ofRandom(1.0f, 5.99f)) * 1000;
-    _pMosaic->init(cycle);
-    
-    /* std::cout << "cycle : " << cycle << std::endl; */
+    _pMosaic->init(int(ofRandom(1.0f, 5.99f)) * 1000, 20);
 }

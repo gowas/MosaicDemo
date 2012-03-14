@@ -22,10 +22,10 @@ enum MosaicStage {
 class ofxMosaic {
     
 public:
-    ofxMosaic(int cycleTimeMillis = 5000);
+    ofxMosaic(int cycleTimeMillis = 5000, int mosaicMaxSize = 20);
     ~ofxMosaic();
 
-    void init(int cycleTimeMillis);
+    void init(int cycleTimeMillis, int mosaicMaxSize);
 
     void update();
     void draw();
@@ -39,6 +39,8 @@ public:
 protected:
     int _cycleTimeMillis;
     int _startTimeMillis;
+    
+    int _mosaicMaxSize;
 
     int _counter;
 

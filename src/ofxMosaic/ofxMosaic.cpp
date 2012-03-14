@@ -8,13 +8,13 @@
 #include "ofxMosaic.h"
 
 //--------------------------------------------------------------
-ofxMosaic::ofxMosaic(int cycleTimeMillis) {
+ofxMosaic::ofxMosaic(int cycleTimeMillis, int mosaicMaxSize) {
     _pScreenForMosaic = new ofImage();
     _pScreenForMosaic->setImageType(OF_IMAGE_COLOR);
     
     _pMosaicEvent = new ofxMosaicEventArgs(); 
     
-    init(cycleTimeMillis);
+    init(cycleTimeMillis, mosaicMaxSize);
 }
 
 //--------------------------------------------------------------
@@ -29,8 +29,11 @@ ofxMosaic::~ofxMosaic() {
 }
 
 //--------------------------------------------------------------
-void ofxMosaic::init(int cycleTimeMillis){
+void ofxMosaic::init(int cycleTimeMillis, int mosaicMaxSize){
+    /* std::cout << "cycleTimeMillis : " << cycleTimeMillis << std::endl; */
+    
     _cycleTimeMillis = cycleTimeMillis;
+    _mosaicMaxSize = mosaicMaxSize;
     
     reset();
 }
@@ -39,7 +42,10 @@ void ofxMosaic::init(int cycleTimeMillis){
 void ofxMosaic::update(){
     if (_stage == none) {
         if ((ofGetElapsedTimeMillis() - _startTimeMillis) > _cycleTimeMillis) {
+            _pMosaicEvent->cycleTimeMillis = _cycleTimeMillis;
+            _pMosaicEvent->mosaicMaxSize = _mosaicMaxSize;
             ofNotifyEvent(mosaicStartEvent, (*_pMosaicEvent), this);
+            
             start();
         }
     } else {
@@ -69,6 +75,9 @@ void ofxMosaic::update(){
                 break;
             case end:
                 reset();
+                
+                _pMosaicEvent->cycleTimeMillis = _cycleTimeMillis;
+                _pMosaicEvent->mosaicMaxSize = _mosaicMaxSize;
                 ofNotifyEvent(mosaicEndEvent, (*_pMosaicEvent), this);
                 break;
             default:

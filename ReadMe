@@ -1,1 +1,5 @@
-OF7
+OF0071
+
+addons:
+ofxXmlSettings
+ofxUI

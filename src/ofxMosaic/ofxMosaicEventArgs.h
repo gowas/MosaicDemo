@@ -21,8 +21,9 @@ public:
     ~ofxMosaicEventArgs() {
     }
     
-    int cycleTimeMillis;
     int mosaicMaxSize;
+    int cycleTimeMillis;
+    bool loop;
 }; 
 
 #endif

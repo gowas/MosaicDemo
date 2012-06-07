@@ -12,7 +12,7 @@
 #include "ofAppGlutWindow.h"
 
 //========================================================================
-int main( ){
+int main(){
 
     ofAppGlutWindow window;
     

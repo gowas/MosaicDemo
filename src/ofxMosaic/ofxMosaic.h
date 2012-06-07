@@ -11,34 +11,33 @@
 #include "ofMain.h"
 #include "ofxMosaicEventArgs.h"
 
-enum MosaicStage {
-    none = 0,
-    first = 1,
-    separated = 2,
-    fadeout = 3,
-    end = 4
-};
-
 class ofxMosaic {
     
 public:
-    ofxMosaic(int cycleTimeMillis = 5000, int mosaicMaxSize = 20);
+    ofxMosaic(int mosaicMaxSize);
     ~ofxMosaic();
 
-    void init(int cycleTimeMillis, int mosaicMaxSize);
+    void init(int mosaicMaxSize);
 
     void update();
     void draw();
 
     void start();
     bool isPlaying();
+    
+    void startLoop(int cycleTimeMillis);
+    void stopLoop();
+    
+    bool isLoop();
 
     ofEvent<ofxMosaicEventArgs> mosaicStartEvent;
     ofEvent<ofxMosaicEventArgs> mosaicEndEvent;
 
 protected:
     int _cycleTimeMillis;
-    int _startTimeMillis;
+    int _lastRunTimeMillis;
+    
+    bool _loop;
     
     int _mosaicMaxSize;
 
@@ -46,7 +45,14 @@ protected:
 
     ofImage * _pScreenForMosaic;
 
-    MosaicStage _stage;
+    enum {
+        none = 0,
+        ready = 1,
+        first = 2,
+        separated = 3,
+        fadeout = 4,
+        end = 5
+    } _stage;
 
     int _mosaicSize;
     int _mosaicAlpha;

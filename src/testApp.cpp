@@ -13,8 +13,9 @@ void testApp::setup(){
     ofSetVerticalSync(true);
     ofEnableSmoothing();
     
-    ofBackground(190);
     ofSetFrameRate(60);
+    
+    ofSeedRandom();
     
     _dispGuiCanvas = true;
     
@@ -32,9 +33,10 @@ void testApp::setup(){
     
     //
     _pLogo = new ofImage();
-    _pLogo->loadImage("gowas_logo_w.png");
+    _pLogo->loadImage("gowas-white.png");
     
-    _pMosaic = new ofxMosaic(3000);
+    _pMosaic = new ofxMosaic(20);
+    _pMosaic->startLoop(3000);
     
     ofAddListener(_pMosaic->mosaicStartEvent, this, &testApp::mosaicStartEventHandler);
     ofAddListener(_pMosaic->mosaicEndEvent, this, &testApp::mosaicEndEventHandler);
@@ -47,6 +49,8 @@ void testApp::update(){
 
 //--------------------------------------------------------------
 void testApp::draw(){
+    ofBackgroundGradient(ofColor::gray, ofColor::black, OF_GRADIENT_CIRCULAR);
+    
     ofPushStyle();
     
     ofSetColor(255, 127);
@@ -55,24 +59,14 @@ void testApp::draw(){
     
     ofPopStyle();
     
-    if (_pMosaic->isPlaying()) {
-        _pMosaic->draw();
-    }
+    if (_pMosaic->isPlaying()) _pMosaic->draw();
 }
 
 //--------------------------------------------------------------
 void testApp::exit() {
-    if (_pGuiCanvas != NULL) {
-        delete _pGuiCanvas;
-    }
-    
-    if (_pLogo != NULL) {
-        delete _pLogo;
-    }
-    
-    if (_pMosaic != NULL) {
-        delete _pMosaic;
-    }
+    if (_pGuiCanvas != NULL) delete _pGuiCanvas;
+    if (_pLogo != NULL) delete _pLogo;
+    if (_pMosaic != NULL) delete _pMosaic;
 }
 
 //--------------------------------------------------------------
@@ -136,9 +130,8 @@ void testApp::guiEventHandler(ofxUIEventArgs &e) {
     if(e.widget->getName() == "FULLSCREEN") {
         ofxUIToggle * toggle = (ofxUIToggle *) e.widget;
         ofSetFullscreen(toggle->getValue());   
-    } else if(e.widget->getName() == "RESET") {
+    } else if(e.widget->getName() == "RESET")
         _pMosaic->start();
-    }
 }
 
 //--------------------------------------------------------------
@@ -146,9 +139,8 @@ void testApp::mosaicStartEventHandler(ofxMosaicEventArgs &e) {
     /* std::cout << "cycleTimeMillis : " << e.cycleTimeMillis << std::endl; */
     /* std::cout << "mosaicMaxSize : " << e.mosaicMaxSize << std::endl; */
     
-    if (_pGuiCanvas->isVisible()) {
+    if (_pGuiCanvas->isVisible())
         _pGuiCanvas->setVisible(false);
-    }
 }
 
 //--------------------------------------------------------------
@@ -156,11 +148,11 @@ void testApp::mosaicEndEventHandler(ofxMosaicEventArgs &e) {
     /* std::cout << "cycleTimeMillis : " << e.cycleTimeMillis << std::endl; */
     /* std::cout << "mosaicMaxSize : " << e.mosaicMaxSize << std::endl; */
     
-    if (_dispGuiCanvas && !_pGuiCanvas->isVisible()) {
+    if (_dispGuiCanvas && !_pGuiCanvas->isVisible())
         _pGuiCanvas->setVisible(true);
-    }
     
     ofSeedRandom();
     
-    _pMosaic->init(int(ofRandom(1.0f, 5.99f)) * 1000, 20);
+    _pMosaic->stopLoop();
+    _pMosaic->startLoop(int(ofRandom(1.0f, 6.0f)) * 1000);
 }

@@ -130,7 +130,7 @@ void ofxMosaic::draw(){
                         
                             for (int i = 0; i < screenHeight; i += _mosaicSize) {
                                 for (int j = 0; j < screenWidth; j += _mosaicSize) {
-                                    int xPoint = j + (int)(_mosaicSize / 2.0f);
+                                    int xPoint = j + static_cast<int>(_mosaicSize / 2.0f);
                                     if (xPoint >= screenWidth) xPoint = screenWidth - 1;
 
                                     unsigned char * pPoint = pPixels + (i * screenWidth + xPoint) * 3;
